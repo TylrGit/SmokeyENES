@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #include <Enes100.h>
-#include "headers/Constants.h"
+#include "./_SensorManager.h"
+#include "./_Navigation.h"
+// Later probably need ActuatorManager class
 
 /* Mission related commands:
  * Enes100.mission(NUM_CANDLES, i); i is an integer (0, 1, 2, 3, 4, 5)
@@ -9,25 +11,15 @@
  * Enes100.mission(TOPOGRAPHY, TOP_C);
  */
 
-// Blinks the onboard LED once
-void debugLED() {
-	pinMode(13, OUTPUT);
-	digitalWrite(13, HIGH);
-	delay(5000);
-	digitalWrite(13, LOW);
-}
-
 // Arduino default functions
 void setup() {
 	Serial.begin(9600);
-	debugLED();
 	// Enes100.begin("Smokey", FIRE, 126, 1101); // Team, type, markerId, room
+	SensorManager::initializeSensors();
 }
 
 void loop() {
-	Serial.println("Hello world!");
-	delay(2000);
-	// Calls Sensors.updateSensors()
+	// Calls SensorManager.updateSensors()
 	// Update sensors will read & store sensor
 	// values ONLY for toggled on sensors
 
