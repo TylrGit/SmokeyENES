@@ -8,7 +8,7 @@ class Sensor {
 	friend class SensorManager;
 
 	public:
-		enum ReadType { ANALOG, DIGITAL, UNSET };
+		enum ReadType { ANALOG, DIGITAL, ULTRASONIC, UNSET };
 
 	private:
 		bool enabled;
@@ -16,7 +16,6 @@ class Sensor {
 		int vOut;
 		ReadType type;
 		double data;
-
 
 	public:
 		Sensor() : pinIn(-1), vOut(-1), enabled(false), type(UNSET) {}
@@ -31,4 +30,5 @@ class Sensor {
 		// Getters
 		bool isEnabled() { return enabled; }
 		double getValue() { return data; }
+		void printData();
 };

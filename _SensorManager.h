@@ -4,11 +4,16 @@
 class SensorManager {
 	friend class Navigation;
 
-	private:
+	public:
+		enum Id {
+			LIMIT_SWITCH_1,
+			NUM_SENSORS
+		};
+
+	public:
 		// Note: Dynamically allocated
 		static Sensor* sensors;
 
-	public:
 		static void initializeSensors();
 		static void updateAll();
 		static void disableAll();

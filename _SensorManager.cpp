@@ -2,11 +2,9 @@
 #include "./_SensorManager.h"
 #include "./_Sensor.h"
 
-enum Id {
-	// LIMIT_SWITCH_1,
+// AI Helped fix error linker error for sensors array
+Sensor* SensorManager::sensors = nullptr;
 
-	NUM_SENSORS
-};
 /*
  * Initializes sensor array
  * Each Sensor has pin number stored & disabled by default
@@ -22,7 +20,7 @@ void SensorManager::initializeSensors() {
 	/*
 	 * Manually define sensors here
 	 */
-
+	sensors[LIMIT_SWITCH_1] = Sensor(12, 13, Sensor::DIGITAL);
 
 	/*
 	 * End
@@ -48,5 +46,14 @@ void SensorManager::initializeSensors() {
 void SensorManager::updateAll() {
 	for (int i = 0; i < NUM_SENSORS; i++) {
 		sensors[i].update();
+	}
+}
+
+/*
+ * Disables all sensors
+ */
+void SensorManager::disableAll() {
+	for (int i = 0; i < NUM_SENSORS; i++) {
+		sensors[i].disable();
 	}
 }

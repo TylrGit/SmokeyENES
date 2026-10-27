@@ -2,6 +2,7 @@
 #include <Enes100.h>
 #include "./_SensorManager.h"
 #include "./_Navigation.h"
+#include "HardwareSerial.h"
 // Later probably need ActuatorManager class
 
 /* Mission related commands:
@@ -16,12 +17,20 @@ void setup() {
 	Serial.begin(9600);
 	// Enes100.begin("Smokey", FIRE, 126, 1101); // Team, type, markerId, room
 	SensorManager::initializeSensors();
+
+	// (DEBUG): Manual enable
+	// SensorManager::sensors[SensorManager::LIMIT_SWITCH_1].enable();
+
 }
 
 void loop() {
-	// Calls SensorManager.updateSensors()
-	// Update sensors will read & store sensor
-	// values ONLY for toggled on sensors
+	SensorManager::updateAll(); // Updates sensor data for enabled sensors
+
+	// (DEBUG): Manual debug print
+	// SensorManager::sensors[SensorManager::LIMIT_SWITCH_1].printData();
+
+
+	// SensorManager::printSensorData(SensorManager::LIMIT_SWITCH_1);
 
 	// Call Navigation.attemptMovement();
 	// attemptMovement will:
@@ -32,4 +41,7 @@ void loop() {
 	// - Motor direction controlled by h-bridge?
 	// - Motors have a location (FL, FR, BL, BR) associated with them
 	// - We can store each via enum class Motor, access via Motor::FRONT_LEFT etc.
+	//
+	//
+	delay(100);
 }
