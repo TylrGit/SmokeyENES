@@ -4,7 +4,7 @@
  * vOut is the pin used for voltage output (digital)
  * data is int or double
  */
-class Sensor {
+struct Sensor {
 	friend class SensorManager;
 
 	public:

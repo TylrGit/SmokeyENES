@@ -2,30 +2,17 @@
 #include "./_SensorManager.h"
 #include "./_Sensor.h"
 
-// AI Helped fix error linker error for sensors array
-Sensor* SensorManager::sensors = nullptr;
+/*
+ * File AI Disclosure:
+ * - AI warned that writing pin state to LOW before setting mode
+ *   to out is prefferred to prevent startup spikes
+ */
 
 /*
- * Initializes sensor array
- * Each Sensor has pin number stored & disabled by default
- *
- * Sensors: Sensor(pinIn, Sensor::type)
- * Sensors: Sensor(pinIn, vOut, Sensor::type)
- *
- * Example: sensors[LIMIT_SWITCH_1] = Sensor(1, Sensor::DIGITAL);
+ * Sets Arduino pin mode for sensors
+ * Each Sensor has the optional vOut disabled by default
  */
 void SensorManager::initializeSensors() {
-	sensors = new Sensor[NUM_SENSORS];
-
-	/*
-	 * Manually define sensors here
-	 */
-	sensors[LIMIT_SWITCH_1] = Sensor(12, 13, Sensor::DIGITAL);
-
-	/*
-	 * End
-	 */
-
 	// Initialize pins for all sensors
 	for (int i = 0; i < NUM_SENSORS; i++) {
 		pinMode(sensors[i].pinIn, INPUT); // Set as input
@@ -33,8 +20,8 @@ void SensorManager::initializeSensors() {
 		// Sets vOut pins to output if required.
 		// Defaults to LOW / off
 		if (sensors[i].vOut != -1) {
+			digitalWrite(sensors[i].vOut, LOW); // Pre-write LOW
 			pinMode(sensors[i].vOut, OUTPUT);
-			digitalWrite(sensors[i].vOut, LOW);
 		}
 	}
 }

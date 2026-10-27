@@ -2,17 +2,21 @@
 #include "_Sensor.h"
 
 // AI Helped with integrating existing update function with ultrasonic sensor
+// And debug switch case ULTRASONIC needing braces
 void Sensor::update() {
 	if (!this->enabled) return;
 
-    if (this->type == ANALOG) {
+	switch (this->type) {
+    case ANALOG:
         this->data = analogRead(this->pinIn);
-    }
-    else if (this->type == DIGITAL) {
+        break;
+
+    case DIGITAL:
         this->data = digitalRead(this->pinIn);
-    }
-    else if (this->type == ULTRASONIC) {
-        // Sends 10 micro second pulse to vOut (Trig pin)
+        break;
+
+    case ULTRASONIC: {
+        // 10 microsecond pulse to vOut (Trig pin)
         digitalWrite(this->vOut, LOW);
         delayMicroseconds(2);
         digitalWrite(this->vOut, HIGH);
@@ -20,9 +24,13 @@ void Sensor::update() {
         digitalWrite(this->vOut, LOW);
 
         long duration = pulseIn(this->pinIn, HIGH); // Read
-
         this->data = duration * 0.034 / 2; // Convert time to distance (cm)
+        break;
     }
+    case UNSET:
+    default:
+    	break;
+	}
 }
 
 void Sensor::enable() {
