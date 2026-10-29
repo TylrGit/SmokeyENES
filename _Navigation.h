@@ -1,4 +1,5 @@
 #pragma once
+#include "_Queue.h"
 
 // AI: Helped me understand static constexpr
 // in a namespace for compile-time constants
@@ -8,25 +9,35 @@ namespace Hardcoded {
     static constexpr double obstacleRow3 = 0.0;
 }
 
-class Navigation {
-	public:
-		enum State {
-	        WAITING,
-			TURNING_TO_SITE,
-	        TO_SITE,
-	        TO_OBSTACLES,
-	        COMPLETE_OBSTACLES,
-	        TO_LOG,
-	        TO_END,
-	        END
-	    };
+struct Navigation {
+	static Queue xArr, yArr, angleArr;
+	static int xPos, yPos, angle; // Normalized to 0 to 2pi
 
-	    enum Direction {
-	        FORWARD,
-	        BACKWARD,
-	        LEFT,
-	        RIGHT
-	    };
+	enum State {
+        WAITING,
+		TURNING_TO_SITE,
+        TO_SITE,
+        TO_OBSTACLES,
+        COMPLETE_OBSTACLES,
+        TO_LOG,
+        TO_END,
+        END
+    };
 
-	Navigation();
+    enum Direction {
+        FORWARD,
+        BACKWARD,
+        LEFT,
+        RIGHT
+    };
+
+	static void initializeVision();
+	static void initializeVision(int markerId); // For debugging
+
+	static void updatePosData();
+
+	static void turnTo(double targetAngle);
+	static void travelTo(double targetX, double targetY);
+
+	static void attemptNavigate();
 };

@@ -31,4 +31,8 @@ struct Sensor {
 		bool isEnabled() { return enabled; }
 		double getValue() { return data; }
 		void printData();
+
+		bool isObstacle();
+		static int getOrientation();
+		static int getCandlesLit();
 };

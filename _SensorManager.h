@@ -1,5 +1,5 @@
 #pragma once
-#include "./_Sensor.h"
+#include "_Sensor.h"
 
 /*
  * File AI Disclosure:
@@ -18,13 +18,22 @@ struct SensorManager {
 	 */
 	enum Id {
 		LIMIT_SWITCH_1,
+		LIMIT_SWITCH_2,
+		DISTANCE_SENSOR,
+		THERMAL_CAMERA,
 		NUM_SENSORS
 	};
-	inline static Sensor sensors[NUM_SENSORS] = {
-		Sensor(12, 13, Sensor::DIGITAL), // LIMIT_SWITCH_1
+	inline static Sensor sensors[] = {
+		// Sensor(_, _, Sensor::DIGITAL), // LIMIT_SWITCH_1
+		// Sensor(_, _, Sensor::DIGITAL), // LIMIT_SWITCH_1
+		// Sensor(_, _, Sensor::ULTRASONIC), // DISTANCE_SENSOR
+		// Sensor(_, _, _), // THERMAL_CAMERA
 	};
+	// Calibration constants
+	static constexpr double DISTANCE_THRESHOLD = 5.0;
 
 	static void initializeSensors();
 	static void updateAll();
 	static void disableAll();
+	static void missionAttempt();
 };

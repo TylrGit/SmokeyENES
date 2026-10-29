@@ -1,6 +1,7 @@
 #include <Arduino.h>
-#include "./_SensorManager.h"
-#include "./_Sensor.h"
+#include <Enes100.h>
+#include "_SensorManager.h"
+#include "_Sensor.h"
 
 /*
  * File AI Disclosure:
@@ -20,7 +21,7 @@ void SensorManager::initializeSensors() {
 		// Sets vOut pins to output if required.
 		// Defaults to LOW / off
 		if (sensors[i].vOut != -1) {
-			digitalWrite(sensors[i].vOut, LOW); // Pre-write LOW
+			digitalWrite(sensors[i].vOut, LOW); // Pre-write
 			pinMode(sensors[i].vOut, OUTPUT);
 		}
 	}
@@ -43,4 +44,18 @@ void SensorManager::disableAll() {
 	for (int i = 0; i < NUM_SENSORS; i++) {
 		sensors[i].disable();
 	}
+}
+
+/*
+ * Sends mission related data to the Enes100 server
+ */
+void SensorManager::missionAttempt() {
+	/*
+	 * Enes100.mission(NUM_CANDLES, i); i is an integer (0, 1, 2, 3, 4, 5)
+	 * Enes100.mission(TOPOGRAPHY, TOP_A);
+	 * Enes100.mission(TOPOGRAPHY, TOP_B);
+	 * Enes100.mission(TOPOGRAPHY, TOP_C);
+	 */
+	Enes100.mission(TOPOGRAPHY, Sensor::getOrientation());
+	Enes100.mission(NUM_CANDLES, Sensor::getCandlesLit());
 }
