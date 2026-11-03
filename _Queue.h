@@ -7,7 +7,7 @@ struct Queue {
 
 	// Return -1 if entire array not set
 	// Else average
-	int average() {
+	double average() {
 		if (!filled) return -1.0;
 
 		double sum = 0.0;
@@ -15,7 +15,7 @@ struct Queue {
 			sum += values[i];
 		}
 
-		return sum / 10;
+		return sum / 10.0;
 	}
 
 	void enque(double val) {

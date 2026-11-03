@@ -11,7 +11,6 @@ void setup() {
 	SensorManager::initializeSensors();
 	// ServoManager::initializeServos(_, _); // (pinL, pinR)
 	Navigation::initializeVision(126); // (markerId) optional override
-
 	// (DEBUG): Manual enable
 	// SensorManager::sensors[SensorManager::LIMIT_SWITCH_1].enable();
 	// SensorManager::sensors[SensorManager::LIMIT_SWITCH_1].enable();
@@ -19,7 +18,13 @@ void setup() {
 }
 
 void loop() {
-	SensorManager::updateAll(); // Updates sensor data for enabled sensors	
+	SensorManager::updateAll(); // Updates sensor data for enabled sensors
+	Navigation::updatePosData();
+	Navigation::printPosData();
+
+	if (!Enes100.isConnected()) {
+		Serial.println("Vision not connected!");
+	}
 
 	// (DEBUG): Manual debug print
 	// SensorManager::sensors[0].printData();
