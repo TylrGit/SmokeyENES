@@ -23,9 +23,10 @@ struct SensorManager {
 		THERMAL_CAMERA,
 		NUM_SENSORS
 	};
+	// <!> MUST ENABLE SENSOR BEFORE USING!
 	inline static Sensor sensors[] = {
-		// Sensor(_, _, Sensor::DIGITAL), // LIMIT_SWITCH_1
-		// Sensor(_, _, Sensor::DIGITAL), // LIMIT_SWITCH_1
+		Sensor(12, Sensor::LIMIT_SWITCH), // LIMIT_SWITCH_1
+		// Sensor(_, Sensor::DIGITAL), // LIMIT_SWITCH_2
 		// Sensor(_, _, Sensor::ULTRASONIC), // DISTANCE_SENSOR
 		// Sensor(_, _, _), // THERMAL_CAMERA
 	};
@@ -33,7 +34,15 @@ struct SensorManager {
 	static constexpr double DISTANCE_THRESHOLD = 5.0;
 
 	static void initializeSensors();
+
 	static void updateAll();
 	static void disableAll();
-	static void missionAttempt();
+	static void enable(Id id);
+	static void disable(Id id);
+
+	static void printSensorData(Id id);
+	static void printAllSensorData();
+
+	static void missionOrientation();
+	static void missionFlames();
 };

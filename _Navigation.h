@@ -9,15 +9,16 @@ namespace Hardcoded {
     static constexpr double obstacleRow3 = 0.0;
 }
 
-
 // AI: Helped me inline for in-header static initialization
 struct Navigation {
 	inline static Queue xArr;
 	inline static Queue yArr;
 	inline static Queue angleArr;
-	inline static double xPos = -1.0;
-	inline static double yPos = -1.0;
-	inline static double angle = -1.0; // Normalized to 0 to 2pi
+	inline static float xPos = -1.0;
+	inline static float yPos = -1.0;
+	inline static float angle = -1.0; // Normalized to 0 to 2pi
+
+    inline static unsigned long time = 0;
 
 	enum State {
         WAITING,
@@ -38,7 +39,6 @@ struct Navigation {
     };
 
 	static void initializeVision();
-	static void initializeVision(int markerId); // For debugging
 
 	static void updatePosData();
 	static void printPosData();

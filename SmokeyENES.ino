@@ -1,45 +1,49 @@
 #include <Arduino.h>
 #include <Enes100.h>
 #include "HardwareSerial.h"
+#include "_FlameSensor.h"
 #include "_SensorManager.h"
-#include "_ServoManager.h"
 #include "_Navigation.h"
+#include "_ServoManager.h"
+#include "_MotorManager.h"
 
-// Arduino default functions
+
 void setup() {
 	Serial.begin(9600);
+	Navigation::initializeVision();
 	SensorManager::initializeSensors();
-	// ServoManager::initializeServos(_, _); // (pinL, pinR)
-	Navigation::initializeVision(126); // (markerId) optional override
-	// (DEBUG): Manual enable
-	// SensorManager::sensors[SensorManager::LIMIT_SWITCH_1].enable();
-	// SensorManager::sensors[SensorManager::LIMIT_SWITCH_1].enable();
-	// SensorManager::sensors[0].enable();
+	SensorManager::enable(SensorManager::LIMIT_SWITCH_1);
+	// FlameSensor::initialize();
+	// ServoManager::initializeServos(3, -1); // (pinL, pinR) -1 to disable
+
+
+	// If not connected to Enes system, run a blocking loop
+	/*
+	if (!Enes100.isConnected()) {
+		Serial.println("<!> Error: Vision not connected! Terminating...");
+		Serial.flush();
+		while (true) {
+			delay(100);
+		}
+	}
+	*/
+
+	ServoManager::setAngle(0);
 }
 
 void loop() {
+	Navigation::time = millis(); // Time since start
+
 	SensorManager::updateAll(); // Updates sensor data for enabled sensors
+
 	Navigation::updatePosData();
-	Navigation::printPosData();
+	// Navigation::printPosData();
+	// Navigation::attemptNavigate();
 
-	if (!Enes100.isConnected()) {
-		Serial.println("Vision not connected!");
-	}
+	// FlameSensor::update();
+	// FlameSensor::printArray();
 
-	// (DEBUG): Manual debug print
-	// SensorManager::sensors[0].printData();
-	// SensorManager::printSensorData(SensorManager::LIMIT_SWITCH_1);
+	SensorManager::printSensorData(SensorManager::LIMIT_SWITCH_1); // (DEBUG)
 
-	// Call Navigation.attemptMovement();
-	// attemptMovement will:
-	// 1. Read navigation step (e.g. FACING_SITE, TO_SITE, BACKING_FROM_SITE, TO_OBSTACLES)
-	// 2. Determine if/what sensors to read from
-	// 3. Perform a call to motors to move
-	// - Motor speed controlled with RPM,
-	// - Motor direction controlled by h-bridge?
-	// - Motors have a location (FL, FR, BL, BR) associated with them
-	// - We can store each via enum class Motor, access via Motor::FRONT_LEFT etc.
-
-
-	delay(100); // 100ms delay
+	delay(50);
 }

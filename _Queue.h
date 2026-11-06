@@ -3,14 +3,14 @@
 struct Queue {
 	int pos = 0;
 	bool filled = false;
-	double values[10] = {};
+	float values[10] = {};
 
 	// Return -1 if entire array not set
 	// Else average
-	double average() {
+	float average() {
 		if (!filled) return -1.0;
 
-		double sum = 0.0;
+		float sum = 0.0;
 		for (int i = 0; i < 10; i++) {
 			sum += values[i];
 		}
@@ -18,7 +18,7 @@ struct Queue {
 		return sum / 10.0;
 	}
 
-	void enque(double val) {
+	void enque(float val) {
 		values[pos] = val;
 		pos = (pos + 1) % 10;
 		if (pos == 0) filled = true;

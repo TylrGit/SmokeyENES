@@ -1,6 +1,7 @@
 #include <Arduino.h>
-#include <Enes100.h>
+// #include <Enes100.h>
 #include "_SensorManager.h"
+// #include "_FlameSensor.h"
 #include "_Sensor.h"
 
 /*
@@ -16,7 +17,11 @@
 void SensorManager::initializeSensors() {
 	// Initialize pins for all sensors
 	for (int i = 0; i < NUM_SENSORS; i++) {
-		pinMode(sensors[i].pinIn, INPUT); // Set as input
+		if (sensors[i].type == Sensor::LIMIT_SWITCH) {
+			pinMode(sensors[i].pinIn, INPUT_PULLUP); // Set as input with pullup
+		} else {
+			pinMode(sensors[i].pinIn, INPUT); // Set as input
+		}
 
 		// Sets vOut pins to output if required.
 		// Defaults to LOW / off
@@ -38,7 +43,7 @@ void SensorManager::updateAll() {
 }
 
 /*
- * Disables all sensors
+ * Disable all sensors
  */
 void SensorManager::disableAll() {
 	for (int i = 0; i < NUM_SENSORS; i++) {
@@ -47,15 +52,54 @@ void SensorManager::disableAll() {
 }
 
 /*
+ * Enable a sensor by ID
+ */
+void SensorManager::enable(Id id) {
+	if (id >= 0 && id < NUM_SENSORS) {
+		sensors[id].enable();
+	}
+}
+
+/*
+ * Disable a sensor by ID
+ */
+void SensorManager::disable(Id id) {
+	if (id >= 0 && id < NUM_SENSORS) {
+		sensors[id].disable();
+	}
+}
+
+/*
+ * Print sensor data for a given ID
+ */
+void SensorManager::printSensorData(Id id) {
+	if (id >= 0 && id < NUM_SENSORS) {
+		sensors[id].printData();
+	}
+}
+
+/*
+ * Print data for all sensors
+ */
+void SensorManager::printAllSensorData() {
+	for (int i = 0; i < NUM_SENSORS; i++) {
+		sensors[i].printData();
+	}
+}
+
+/*
  * Sends mission related data to the Enes100 server
  */
-void SensorManager::missionAttempt() {
+void SensorManager::missionOrientation() {
 	/*
-	 * Enes100.mission(NUM_CANDLES, i); i is an integer (0, 1, 2, 3, 4, 5)
 	 * Enes100.mission(TOPOGRAPHY, TOP_A);
 	 * Enes100.mission(TOPOGRAPHY, TOP_B);
 	 * Enes100.mission(TOPOGRAPHY, TOP_C);
 	 */
-	Enes100.mission(TOPOGRAPHY, Sensor::getOrientation());
-	Enes100.mission(NUM_CANDLES, Sensor::getCandlesLit());
+	// Enes100.mission(TOPOGRAPHY, Sensor::getOrientation());
+}
+
+void SensorManager::missionFlames() {
+ 	// Enes100.mission(NUM_CANDLES, i); i is an integer (0, 1, 2, 3, 4, 5)
+	// Enes100.mission(NUM_CANDLES, FlameSensor::getCandlesLit());
 }

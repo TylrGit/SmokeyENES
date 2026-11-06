@@ -20,6 +20,7 @@
 
 ```
 arduino-cli board list
+arduino-cli compile --fqbn arduino:renesas_uno:unor4wifi .
 arduino-cli upload -p COM12 --fqbn arduino:renesas_uno:unor4wifi . --verbose
 arduino-cli monitor -p COM12 -c baudrate=115200
 ```
@@ -35,3 +36,11 @@ Ctrl+Alt+M # Open Serial Monitor
 
 - [Quick Reference](https://cdn.sparkfun.com/assets/2/5/4/1/8/NewArduinoCheatsheet_1.pdf)
 - [Omron Flame Sensor](https://github.com/omron-devhub/d6t-2jcieev01-arduino)
+
+
+
+# Electronic Pin Stuff
+
+- Limit switches: GND and IN only (GND = C, IN NUMBER = NC)
+- SDA/SCL for flame sensor needs pull up resistor (4.7kΩ)
+- H-bridge for Left 2 and Right 2.

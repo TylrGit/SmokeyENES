@@ -4,8 +4,12 @@
 #include "_Sensor.h"
 #include "_SensorManager.h"
 
-// AI Helped with integrating existing update function with ultrasonic sensor
-// And debug switch case ULTRASONIC needing braces
+/*
+ * File AI Disclosure:
+ * - Helped with integrating existing update function with ultrasonic sensor
+ * - Helped with debug switch case ULTRASONIC needing braces for scope
+ */
+
 void Sensor::update() {
 	if (!this->enabled) return;
 
@@ -14,6 +18,7 @@ void Sensor::update() {
         this->data = analogRead(this->pinIn);
         break;
 
+    case LIMIT_SWITCH:
     case DIGITAL:
         this->data = digitalRead(this->pinIn);
         break;
@@ -32,7 +37,9 @@ void Sensor::update() {
         break;
     }
     case UNSET:
+    	break;
     default:
+    	Serial.println("<!> Improper sensor type! ");
     	break;
 	}
 }

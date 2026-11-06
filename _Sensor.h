@@ -8,7 +8,7 @@ struct Sensor {
 	friend class SensorManager;
 
 	public:
-		enum ReadType { ANALOG, DIGITAL, ULTRASONIC, UNSET };
+		enum ReadType { ANALOG, DIGITAL, ULTRASONIC, LIMIT_SWITCH, UNSET };
 
 	private:
 		bool enabled;
@@ -34,5 +34,4 @@ struct Sensor {
 
 		bool isObstacle();
 		static int getOrientation();
-		static int getCandlesLit();
 };
